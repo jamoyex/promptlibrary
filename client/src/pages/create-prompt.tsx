@@ -23,9 +23,22 @@ export default function CreatePrompt() {
     {
       id: "contact-info",
       name: "Contact Info",
-      instruction: "Enable this action and map the field to the exact value below.",
-      fieldLabel: "Save Contact Info to Field",
-      valueToCopy: "user_email"
+      instruction: "Enable this action and set up the following field updates.",
+      type: "contact-info",
+      updates: [
+        {
+          id: "email-update",
+          actionName: "Update Email",
+          contactField: "Email",
+          whatToUpdate: "user_email"
+        },
+        {
+          id: "phone-update",
+          actionName: "Update Phone",
+          contactField: "Phone",
+          whatToUpdate: "user_phone"
+        }
+      ]
     },
     {
       id: "appointment-booking",
@@ -167,15 +180,64 @@ export default function CreatePrompt() {
                           <p className="text-sm text-gray-500">{action.instruction}</p>
                         </div>
                         
-                        {action.valueToCopy ? (
+                        {action.type === 'contact-info' && action.updates ? (
+                          <div className="space-y-4 mt-2">
+                            {action.updates.map((update, i) => (
+                              <div key={update.id} className="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                <h5 className="text-xs font-bold text-gray-800 mb-3 border-b border-gray-200 pb-2 uppercase tracking-wider">Field Update {i + 1}</h5>
+                                
+                                <div className="space-y-4">
+                                  <div>
+                                    <div className="flex justify-between items-center mb-1">
+                                      <Label className="text-xs font-semibold text-gray-700">Action name</Label>
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="h-6 px-2 text-xs"
+                                        onClick={() => handleCopy(update.actionName, `${update.id}-action-name`)}
+                                      >
+                                        {copiedField === `${update.id}-action-name` ? <CheckCircle2 className="h-3 w-3 mr-1 text-green-500" /> : <Copy className="h-3 w-3 mr-1" />}
+                                        {copiedField === `${update.id}-action-name` ? "Copied!" : "Copy"}
+                                      </Button>
+                                    </div>
+                                    <Input readOnly value={update.actionName} className="h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0" />
+                                  </div>
+
+                                  <div>
+                                    <Label className="text-xs font-semibold text-gray-700">Which contact field to be updated</Label>
+                                    <div className="text-sm font-medium text-gray-900 mt-1 px-3 py-1.5 bg-white border border-gray-200 rounded-md">
+                                      {update.contactField} <span className="text-gray-400 font-normal ml-1">(Select from dropdown)</span>
+                                    </div>
+                                  </div>
+
+                                  <div>
+                                    <div className="flex justify-between items-center mb-1">
+                                      <Label className="text-xs font-semibold text-gray-700">What to update in the field</Label>
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="h-6 px-2 text-xs"
+                                        onClick={() => handleCopy(update.whatToUpdate, `${update.id}-what-to-update`)}
+                                      >
+                                        {copiedField === `${update.id}-what-to-update` ? <CheckCircle2 className="h-3 w-3 mr-1 text-green-500" /> : <Copy className="h-3 w-3 mr-1" />}
+                                        {copiedField === `${update.id}-what-to-update` ? "Copied!" : "Copy"}
+                                      </Button>
+                                    </div>
+                                    <Input readOnly value={update.whatToUpdate} className="h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0" />
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (action as any).valueToCopy ? (
                           <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
                             <div className="flex justify-between items-center mb-2">
-                              <Label className="text-xs font-semibold text-gray-700">{action.fieldLabel}</Label>
+                              <Label className="text-xs font-semibold text-gray-700">{(action as any).fieldLabel}</Label>
                               <Button 
                                 variant="ghost" 
                                 size="sm" 
                                 className="h-6 px-2 text-xs"
-                                onClick={() => handleCopy(action.valueToCopy!, action.name)}
+                                onClick={() => handleCopy((action as any).valueToCopy!, action.name)}
                               >
                                 {copiedField === action.name ? (
                                   <CheckCircle2 className="h-3 w-3 mr-1 text-green-500" />
@@ -187,7 +249,7 @@ export default function CreatePrompt() {
                             </div>
                             <Input 
                               readOnly
-                              value={action.valueToCopy}
+                              value={(action as any).valueToCopy}
                               className="h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0" 
                             />
                           </div>
