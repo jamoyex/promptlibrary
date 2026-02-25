@@ -8,8 +8,8 @@ export default function CreateHub() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Create a Bot Prompt</h1>
-          <p className="text-gray-500 mt-1">Generate a custom conversation AI bot prompt using our tools.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Create an Agent</h1>
+          <p className="text-gray-500 mt-1">Generate a custom conversation AI agent using our tools.</p>
         </div>
       </div>
 
@@ -20,7 +20,7 @@ export default function CreateHub() {
               <Globe className="h-5 w-5 text-primary" />
               Generate from Website
             </CardTitle>
-            <CardDescription>Enter a URL and we'll automatically extract context to build a custom prompt.</CardDescription>
+            <CardDescription>Enter a URL and we'll automatically extract context to build a custom agent prompt.</CardDescription>
           </CardHeader>
           <CardFooter>
             <Link href="/generate/website" className="w-full">
@@ -37,7 +37,7 @@ export default function CreateHub() {
               <FileQuestion className="h-5 w-5 text-blue-600" />
               Generate via Questionnaire
             </CardTitle>
-            <CardDescription>Answer a few questions about your bot's goal and we'll craft the perfect prompt.</CardDescription>
+            <CardDescription>Answer a few questions about your agent's goal and we'll craft the perfect prompt.</CardDescription>
           </CardHeader>
           <CardFooter>
             <Link href="/generate/questionnaire" className="w-full">

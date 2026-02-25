@@ -67,7 +67,7 @@ export default function CreatePrompt() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-            {new URLSearchParams(window.location.search).get('name') || "Your Bot"}'s Recipe
+            {new URLSearchParams(window.location.search).get('name') || "Your Agent"}'s Recipe
           </h1>
           <p className="text-gray-500 text-sm">Review, tweak, and copy these values into your GoHighLevel account.</p>
         </div>
@@ -78,7 +78,7 @@ export default function CreatePrompt() {
           <Card className="shadow-sm border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle>Core Prompt Configuration</CardTitle>
-              <CardDescription>Copy each of these sections directly into your bot settings.</CardDescription>
+              <CardDescription>Copy each of these sections directly into your agent settings.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
               
@@ -157,7 +157,7 @@ export default function CreatePrompt() {
             <CardHeader className="bg-gray-50 border-b border-gray-100 rounded-t-xl">
               <CardTitle className="text-lg">Required Actions</CardTitle>
               <CardDescription>
-                Configure these specific actions in your bot settings for this template to work.
+                Configure these specific actions in your agent settings for this template to work.
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
