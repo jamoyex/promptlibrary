@@ -11,21 +11,21 @@ const TEMPLATES = [
     title: "Customer Support Agent",
     description: "Handles general inquiries, FAQs, and common customer issues with a polite and helpful tone.",
     actions: ["Contact Info", "Human Handover", "Appointment Booking"],
-    type: "Proprietary",
+    type: "Template",
   },
   {
     id: 2,
     title: "Real Estate Assistant",
     description: "Helps users find properties, schedules viewings, and captures lead information.",
     actions: ["Appointment Booking", "Auto Followup", "Contact Info"],
-    type: "Proprietary",
+    type: "Template",
   },
   {
     id: 3,
     title: "E-commerce Sales Bot",
     description: "Assists with product recommendations, order tracking, and cart recovery.",
     actions: ["Trigger a Workflow", "Stop Bot", "Contact Info"],
-    type: "Proprietary",
+    type: "Template",
   },
 ];
 
@@ -34,8 +34,8 @@ export default function Home() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Prompt Library</h1>
-          <p className="text-gray-500 mt-1">Access our proprietary prompt experiences or generate your own.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Conversation AI Generator</h1>
+          <p className="text-gray-500 mt-1">Build your bot's prompt from scratch, or start with a pre-built niche template.</p>
         </div>
       </div>
 
@@ -76,7 +76,7 @@ export default function Home() {
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">Proprietary Templates</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-900">Agent Templates</h2>
         <div className="flex items-center gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm mb-6">
           <Search className="h-5 w-5 text-gray-400" />
           <Input 
