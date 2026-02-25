@@ -28,7 +28,7 @@ export default function MyPrompts() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Your Prompts</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Your Bots</h1>
           <p className="text-gray-500 mt-1">Manage and access your generated conversation AI bots.</p>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function MyPrompts() {
             <CardFooter className="pt-4 border-t border-gray-100 flex justify-end">
               <Link href={`/bot/${template.id}?name=${encodeURIComponent(template.botName)}`}>
                 <Button variant="outline" size="sm" className="gap-2">
-                  Open Prompt <ArrowRight className="h-3 w-3" />
+                  Open Bot <ArrowRight className="h-3 w-3" />
                 </Button>
               </Link>
             </CardFooter>
@@ -69,7 +69,7 @@ export default function MyPrompts() {
         ))}
         {MY_PROMPTS.length === 0 && (
           <div className="col-span-full py-12 text-center text-gray-500 bg-white rounded-xl border border-dashed border-gray-200">
-            No prompts generated yet. Go to "Create a Prompt" to get started!
+            No bots generated yet. Go to "Create a Bot Prompt" to get started!
           </div>
         )}
       </div>

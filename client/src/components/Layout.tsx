@@ -23,7 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               className="w-full justify-start gap-2"
             >
               <PlusCircle className="h-4 w-4" />
-              Create a Prompt
+              Create a Bot Prompt
             </Button>
           </Link>
           
@@ -33,7 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               className="w-full justify-start gap-2"
             >
               <FolderOpen className="h-4 w-4" />
-              View your prompts
+              View your bots
             </Button>
           </Link>
           
@@ -43,7 +43,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               className="w-full justify-start gap-2"
             >
               <Library className="h-4 w-4" />
-              Prompt Library
+              Bot Library
             </Button>
           </Link>
         </nav>
