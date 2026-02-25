@@ -14,8 +14,8 @@ export default function CreatePrompt() {
 
   const [promptData, setPromptData] = useState({
     personality: "You are a helpful, enthusiastic, and polite assistant. You always greet the user warmly and answer their questions concisely.",
-    goal: "Your primary goal is to help users troubleshoot login issues and capture their email if the issue remains unresolved.",
-    additionalInfo: "Never promise a refund. Always adhere to our company policy of maintaining a professional tone."
+    goal: "Your primary goal is to help users troubleshoot login issues. Always remember to ask for and capture the user's Name, Email, and Phone number.",
+    additionalInfo: "Never promise a refund. Always adhere to our company policy of maintaining a professional tone. \n\nQuestions to ask:\n- When is your birthday?\n- What is your company name?"
   });
 
   // Pre-defined actions required for this specific template
@@ -23,20 +23,20 @@ export default function CreatePrompt() {
     {
       id: "contact-info",
       name: "Contact Info",
-      instruction: "Enable this action and set up the following field updates.",
+      instruction: "Enable this action for custom fields. (Note: Name, Email, and Phone are captured automatically via the prompt and do NOT need this action).",
       type: "contact-info",
       updates: [
         {
-          id: "email-update",
-          actionName: "Update Email",
-          contactField: "Email",
-          whatToUpdate: "user_email"
+          id: "birthday-update",
+          actionName: "Update Birthday",
+          contactField: "Date of Birth",
+          whatToUpdate: "birthdate of the contact"
         },
         {
-          id: "phone-update",
-          actionName: "Update Phone",
-          contactField: "Phone",
-          whatToUpdate: "user_phone"
+          id: "company-update",
+          actionName: "Update Company",
+          contactField: "Company Name",
+          whatToUpdate: "company name of the contact"
         }
       ]
     },
