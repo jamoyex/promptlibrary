@@ -255,12 +255,7 @@ export default function CreatePrompt() {
                               className="h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0" 
                             />
                           </div>
-                        ) : (
-                          <div className="flex items-center gap-2 p-3 bg-gray-50/50 rounded-lg border border-dashed border-gray-200 text-sm text-gray-500 italic">
-                            <Info className="h-4 w-4 text-gray-400" />
-                            No data to copy for this step.
-                          </div>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </div>
