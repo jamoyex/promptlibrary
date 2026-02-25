@@ -33,7 +33,7 @@ export default function Library() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Agent Library</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Agent Prompt Library</h1>
         <p className="text-gray-500 mt-1">Pre-built niche templates for your Conversation AI.</p>
       </div>
 
@@ -69,7 +69,7 @@ export default function Library() {
             <CardFooter className="pt-4 border-t border-gray-100 flex justify-end">
               <Link href={`/bot/${template.id}?name=${encodeURIComponent(template.botName)}`}>
                 <Button variant="outline" size="sm" className="gap-2">
-                  Open Agent <ArrowRight className="h-3 w-3" />
+                  Open Prompt <ArrowRight className="h-3 w-3" />
                 </Button>
               </Link>
             </CardFooter>

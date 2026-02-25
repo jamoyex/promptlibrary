@@ -23,7 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               className="w-full justify-start gap-2"
             >
               <PlusCircle className="h-4 w-4" />
-              Create an Agent
+              Create an Agent Prompt
             </Button>
           </Link>
           
@@ -33,7 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               className="w-full justify-start gap-2"
             >
               <FolderOpen className="h-4 w-4" />
-              View your agents
+              View Agent Prompts
             </Button>
           </Link>
           
@@ -43,7 +43,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               className="w-full justify-start gap-2"
             >
               <Library className="h-4 w-4" />
-              Agent Library
+              Agent Prompt Library
             </Button>
           </Link>
         </nav>

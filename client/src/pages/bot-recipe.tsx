@@ -67,7 +67,7 @@ export default function CreatePrompt() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-            {new URLSearchParams(window.location.search).get('name') || "Your Agent"}'s Recipe
+            {new URLSearchParams(window.location.search).get('name') || "Your Agent"}'s Prompt Recipe
           </h1>
           <p className="text-gray-500 text-sm">Review, tweak, and copy these values into your GoHighLevel account.</p>
         </div>
