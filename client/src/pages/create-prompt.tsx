@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Copy, CheckCircle2, AlertCircle, ToggleRight } from "lucide-react";
+import { ArrowLeft, Copy, CheckCircle2, AlertCircle, ToggleRight, Info } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
@@ -23,16 +23,14 @@ export default function CreatePrompt() {
     {
       id: "contact-info",
       name: "Contact Info",
-      instruction: "Enable this action and set the save field.",
+      instruction: "Enable this action and map the field to the exact value below.",
       fieldLabel: "Save Contact Info to Field",
       valueToCopy: "user_email"
     },
     {
       id: "appointment-booking",
       name: "Appointment Booking",
-      instruction: "Enable this action and paste your booking link.",
-      fieldLabel: "Calendar Link URL",
-      valueToCopy: "https://calendly.com/your-booking-link"
+      instruction: "Enable this action and select your preferred calendar from the dropdown in your GoHighLevel settings. No need to copy any URLs.",
     }
   ];
 
@@ -150,7 +148,7 @@ export default function CreatePrompt() {
             <CardContent className="pt-6">
               <div className="bg-blue-50 text-blue-700 p-3 rounded-lg text-sm mb-6 flex gap-2 items-start">
                 <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
-                <p>Turn on the following actions in your account and paste the provided values.</p>
+                <p>Turn on the following actions in your account and follow the instructions.</p>
               </div>
 
               <div className="space-y-6">
@@ -160,38 +158,45 @@ export default function CreatePrompt() {
                       <div className="absolute left-4 top-8 bottom-[-24px] w-px bg-gray-200" />
                     )}
                     <div className="flex gap-3">
-                      <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5 z-10">
                         <ToggleRight className="h-4 w-4" />
                       </div>
-                      <div className="flex-1 space-y-3 pt-1">
+                      <div className="flex-1 space-y-2 pt-1">
                         <div>
                           <h4 className="font-semibold text-gray-900">{action.name}</h4>
                           <p className="text-sm text-gray-500">{action.instruction}</p>
                         </div>
                         
-                        <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-                          <div className="flex justify-between items-center mb-2">
-                            <Label className="text-xs font-semibold text-gray-700">{action.fieldLabel}</Label>
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
-                              className="h-6 px-2 text-xs"
-                              onClick={() => handleCopy(action.valueToCopy, action.name)}
-                            >
-                              {copiedField === action.name ? (
-                                <CheckCircle2 className="h-3 w-3 mr-1 text-green-500" />
-                              ) : (
-                                <Copy className="h-3 w-3 mr-1" />
-                              )}
-                              {copiedField === action.name ? "Copied!" : "Copy"}
-                            </Button>
+                        {action.valueToCopy ? (
+                          <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
+                            <div className="flex justify-between items-center mb-2">
+                              <Label className="text-xs font-semibold text-gray-700">{action.fieldLabel}</Label>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="h-6 px-2 text-xs"
+                                onClick={() => handleCopy(action.valueToCopy!, action.name)}
+                              >
+                                {copiedField === action.name ? (
+                                  <CheckCircle2 className="h-3 w-3 mr-1 text-green-500" />
+                                ) : (
+                                  <Copy className="h-3 w-3 mr-1" />
+                                )}
+                                {copiedField === action.name ? "Copied!" : "Copy"}
+                              </Button>
+                            </div>
+                            <Input 
+                              readOnly
+                              value={action.valueToCopy}
+                              className="h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0" 
+                            />
                           </div>
-                          <Input 
-                            readOnly
-                            value={action.valueToCopy}
-                            className="h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0" 
-                          />
-                        </div>
+                        ) : (
+                          <div className="flex items-center gap-2 p-3 bg-gray-50/50 rounded-lg border border-dashed border-gray-200 text-sm text-gray-500 italic">
+                            <Info className="h-4 w-4 text-gray-400" />
+                            No data to copy for this step.
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
