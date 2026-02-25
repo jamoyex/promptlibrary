@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import logo from "@assets/botbuilderslogo_1772058512069.png";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Library, Globe, FileQuestion } from "lucide-react";
+import { PlusCircle, Library, FolderOpen } from "lucide-react";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -22,42 +22,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
               variant={location === "/" ? "secondary" : "ghost"}
               className="w-full justify-start gap-2"
             >
-              <Library className="h-4 w-4" />
-              Template Library
-            </Button>
-          </Link>
-          
-          <div className="pt-6 pb-2 px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-            Create New
-          </div>
-          
-          <Link href="/create">
-            <Button
-              variant={location === "/create" ? "secondary" : "ghost"}
-              className="w-full justify-start gap-2"
-            >
               <PlusCircle className="h-4 w-4" />
-              Manual Setup
+              Create a Prompt
             </Button>
           </Link>
           
-          <Link href="/generate/website">
+          <Link href="/my-prompts">
             <Button
-              variant={location === "/generate/website" ? "secondary" : "ghost"}
+              variant={location === "/my-prompts" ? "secondary" : "ghost"}
               className="w-full justify-start gap-2"
             >
-              <Globe className="h-4 w-4" />
-              From Website
+              <FolderOpen className="h-4 w-4" />
+              View your prompts
             </Button>
           </Link>
           
-          <Link href="/generate/questionnaire">
+          <Link href="/library">
             <Button
-              variant={location === "/generate/questionnaire" ? "secondary" : "ghost"}
+              variant={location === "/library" ? "secondary" : "ghost"}
               className="w-full justify-start gap-2"
             >
-              <FileQuestion className="h-4 w-4" />
-              Questionnaire
+              <Library className="h-4 w-4" />
+              Prompt Library
             </Button>
           </Link>
         </nav>

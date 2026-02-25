@@ -60,13 +60,15 @@ export default function CreatePrompt() {
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div className="flex items-center gap-4">
-        <Link href="/">
+        <Link href="/my-prompts">
           <Button variant="outline" size="icon" className="h-8 w-8">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Your Prompt Recipe</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+            {new URLSearchParams(window.location.search).get('name') || "Your Bot"}'s Prompt Recipe
+          </h1>
           <p className="text-gray-500 text-sm">Review, tweak, and copy these values into your GoHighLevel account.</p>
         </div>
       </div>

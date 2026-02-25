@@ -16,7 +16,7 @@ export default function GenerateWebsite() {
     // Simulate generation delay
     setTimeout(() => {
       setIsGenerating(false);
-      setLocation("/create");
+      setLocation("/bot/generated-from-site?name=WebsiteBot");
     }, 2000);
   };
 

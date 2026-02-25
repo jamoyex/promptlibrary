@@ -42,7 +42,7 @@ export default function GenerateQuestionnaire() {
       // Simulate generation delay
       setTimeout(() => {
         setIsGenerating(false);
-        setLocation("/create");
+        setLocation("/bot/generated-from-qna?name=QuestionnaireBot");
       }, 2000);
     }
   };
