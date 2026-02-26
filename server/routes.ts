@@ -23,7 +23,9 @@ export async function registerRoutes(
         }
       );
 
-      res.json({ success: true, status: response.status });
+      const webhookBody = await response.text();
+      console.log(`Webhook response: status=${response.status}, body=${webhookBody}`);
+      res.json({ success: true });
     } catch (error: any) {
       console.error("Webhook error:", error);
       res.status(502).json({ error: "Failed to reach webhook endpoint." });
