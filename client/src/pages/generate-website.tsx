@@ -61,14 +61,24 @@ export default function GenerateWebsite() {
             </CardDescription>
           </CardHeader>
           <CardFooter className="flex justify-center pb-12 pt-4">
-            <a href="https://app.automator.ai/v2/location/RfI0y4Ut54X08LB9xyww/ai-agents/conversation-ai" className="w-full max-w-xs block">
+            {import.meta.env.VITE_AGENT_DASHBOARD_URL ? (
+              <a href={import.meta.env.VITE_AGENT_DASHBOARD_URL} className="w-full max-w-xs block" target="_blank" rel="noopener noreferrer">
+                <Button 
+                  size="lg" 
+                  className="w-full gap-2 px-8 h-12 text-base bg-[#4698d8] hover:bg-[#3980b8] text-white rounded-full shadow-sm font-medium" 
+                >
+                  View Agent
+                </Button>
+              </a>
+            ) : (
               <Button 
                 size="lg" 
-                className="w-full gap-2 px-8 h-12 text-base bg-[#4698d8] hover:bg-[#3980b8] text-white rounded-full shadow-sm font-medium" 
+                className="w-full max-w-xs gap-2 px-8 h-12 text-base bg-[#4698d8] hover:bg-[#3980b8] text-white rounded-full shadow-sm font-medium" 
+                onClick={() => setLocation("/")}
               >
-                View Agent
+                Done
               </Button>
-            </a>
+            )}
           </CardFooter>
         </Card>
       </div>
