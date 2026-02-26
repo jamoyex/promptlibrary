@@ -73,8 +73,8 @@ export default function CreatePrompt() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <div className="xl:col-span-2 space-y-6">
+      <div className="max-w-4xl space-y-8">
+        <div className="space-y-6">
           <Card className="shadow-sm border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle>Core Prompt Configuration</CardTitle>
@@ -151,9 +151,9 @@ export default function CreatePrompt() {
           </Card>
         </div>
 
-        {/* Actions Sidebar */}
+        {/* Actions Section */}
         <div className="space-y-6">
-          <Card className="shadow-sm border-gray-200 sticky top-6">
+          <Card className="shadow-sm border-gray-200">
             <CardHeader className="bg-gray-50 border-b border-gray-100 rounded-t-xl">
               <CardTitle className="text-lg">Required Actions</CardTitle>
               <CardDescription>
