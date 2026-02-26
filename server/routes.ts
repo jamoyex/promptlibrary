@@ -6,11 +6,29 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // put application routes here
-  // prefix all routes with /api
+  app.post("/api/generate-from-website", async (req, res) => {
+    const { website } = req.body;
 
-  // use storage to perform CRUD operations on the storage interface
-  // e.g. storage.insertUser(user) or storage.getUserByUsername(username)
+    if (!website || typeof website !== "string") {
+      return res.status(400).json({ error: "A valid website URL is required." });
+    }
+
+    try {
+      const response = await fetch(
+        "https://webhook.botbuilders.cloud/webhook/2249dbb9-2c2a-40d9-88b6-6e445cf63577",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ website }),
+        }
+      );
+
+      res.json({ success: true, status: response.status });
+    } catch (error: any) {
+      console.error("Webhook error:", error);
+      res.status(502).json({ error: "Failed to reach webhook endpoint." });
+    }
+  });
 
   return httpServer;
 }

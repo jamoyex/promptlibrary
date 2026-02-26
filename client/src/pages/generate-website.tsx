@@ -16,17 +16,22 @@ export default function GenerateWebsite() {
     setIsGenerating(true);
     
     try {
-      await fetch("https://webhook.botbuilders.cloud/webhook/2249dbb9-2c2a-40d9-88b6-6e445cf63577", {
+      const response = await fetch("/api/generate-from-website", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ website: url }),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to send webhook");
+      }
+
       setIsSuccess(true);
     } catch (error) {
       console.error("Error calling webhook:", error);
-      setIsSuccess(true); // Still show success for prototype purposes even if blocked by CORS
+      alert("Something went wrong. Please try again.");
     } finally {
       setIsGenerating(false);
     }
