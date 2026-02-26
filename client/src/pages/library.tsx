@@ -8,10 +8,10 @@ import { Input } from "@/components/ui/input";
 const TEMPLATES = [
   {
     id: "customer-support",
-    title: "Customer Support Agent",
+    title: "Customer Support Chatbot",
     description: "Handles general inquiries, FAQs, and common customer issues with a polite and helpful tone.",
     actions: ["Contact Info", "Human Handover", "Appointment Booking"],
-    botName: "SupportAgent"
+    botName: "SupportChatbot"
   },
   {
     id: "real-estate",
@@ -33,8 +33,8 @@ export default function Library() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Agent Prompt Library</h1>
-        <p className="text-gray-500 mt-1">Pre-built niche templates for your Conversation AI.</p>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Chatbot Library</h1>
+        <p className="text-gray-500 mt-1">Pre-built niche templates for your Chatbots.</p>
       </div>
 
       <div className="flex items-center gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm mb-6">
@@ -69,7 +69,7 @@ export default function Library() {
             <CardFooter className="pt-4 border-t border-gray-100 flex justify-end">
               <Link href={`/bot/${template.id}?name=${encodeURIComponent(template.botName)}`}>
                 <Button variant="outline" size="sm" className="gap-2">
-                  Open Prompt <ArrowRight className="h-3 w-3" />
+                  Open Chatbot <ArrowRight className="h-3 w-3" />
                 </Button>
               </Link>
             </CardFooter>

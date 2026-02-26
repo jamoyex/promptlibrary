@@ -10,19 +10,19 @@ import { Link, useLocation } from "wouter";
 const QUESTIONS = [
   {
     id: "q1",
-    label: "What is the primary purpose of this agent?",
+    label: "What is the primary purpose of this chatbot?",
     placeholder: "e.g., To book meetings, provide tech support, qualify leads...",
     type: "textarea"
   },
   {
     id: "q2",
-    label: "How should the agent sound? (Tone & Voice)",
+    label: "How should the chatbot sound? (Tone & Voice)",
     placeholder: "e.g., Professional, witty, casual, highly technical...",
     type: "input"
   },
   {
     id: "q3",
-    label: "What is the ONE thing the agent must NEVER do?",
+    label: "What is the ONE thing the chatbot must NEVER do?",
     placeholder: "e.g., Never promise a refund, never give legal advice...",
     type: "input"
   }

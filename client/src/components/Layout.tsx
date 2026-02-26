@@ -10,15 +10,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       {/* Top Navigation Bar */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex-shrink-0 flex items-center">
-              <Link href="/">
-                <span className="text-xl font-bold tracking-tight text-gray-900 cursor-pointer">
-                  Conversation AI
-                </span>
-              </Link>
-            </div>
-            
+          <div className="flex justify-center sm:justify-start items-center h-16">
             <nav className="flex space-x-2 sm:space-x-4">
               <Link href="/">
                 <Button
@@ -26,7 +18,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   className="gap-2 text-sm"
                 >
                   <PlusCircle className="h-4 w-4 hidden sm:block" />
-                  Create Prompt
+                  Create Chatbot
                 </Button>
               </Link>
               
@@ -36,7 +28,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   className="gap-2 text-sm"
                 >
                   <FolderOpen className="h-4 w-4 hidden sm:block" />
-                  Your Agents
+                  Your Chatbots
                 </Button>
               </Link>
               

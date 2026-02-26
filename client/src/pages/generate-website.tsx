@@ -41,7 +41,7 @@ export default function GenerateWebsite() {
           </div>
           <CardTitle className="text-2xl">Enter your Website URL</CardTitle>
           <CardDescription className="text-base mt-2">
-            We'll analyze your website's content, tone, and goals to generate a comprehensive agent personality and instructions.
+            We'll analyze your website's content, tone, and goals to generate a comprehensive chatbot personality and instructions.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 max-w-md mx-auto">
