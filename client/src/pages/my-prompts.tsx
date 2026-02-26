@@ -25,14 +25,7 @@ const MY_PROMPTS = [
 
 export default function MyPrompts() {
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Your Chatbots</h1>
-          <p className="text-gray-500 mt-1">Manage and access your generated chatbots.</p>
-        </div>
-      </div>
-
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12 pt-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {MY_PROMPTS.map((template) => (
           <Card key={template.id} className="hover:shadow-md transition-all duration-200 border-gray-200 group hover:border-primary/30">

@@ -5,14 +5,7 @@ import { Globe, FileQuestion, ArrowRight } from "lucide-react";
 
 export default function CreateHub() {
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Create a Chatbot</h1>
-          <p className="text-gray-500 mt-1">Generate a custom conversation AI chatbot using our tools.</p>
-        </div>
-      </div>
-
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12 pt-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 shadow-sm">
           <CardHeader>

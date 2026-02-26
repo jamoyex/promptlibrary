@@ -31,12 +31,7 @@ const TEMPLATES = [
 
 export default function Library() {
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Chatbot Library</h1>
-        <p className="text-gray-500 mt-1">Pre-built niche templates for your Chatbots.</p>
-      </div>
-
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12 pt-4">
       <div className="flex items-center gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm mb-6">
         <Search className="h-5 w-5 text-gray-400" />
         <Input 
