@@ -24,10 +24,13 @@ export default function GenerateWebsite() {
         body: JSON.stringify({ website: url }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to send webhook");
+        throw new Error(result.error || "Failed to generate from website");
       }
 
+      console.log("Webhook response data:", result.data);
       setIsSuccess(true);
     } catch (error) {
       console.error("Error calling webhook:", error);
