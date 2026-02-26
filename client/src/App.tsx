@@ -11,7 +11,6 @@ import Library from "@/pages/library";
 import BotRecipe from "@/pages/bot-recipe";
 import GenerateWebsite from "@/pages/generate-website";
 import GenerateQuestionnaire from "@/pages/generate-questionnaire";
-import Settings from "@/pages/settings";
 
 function Router() {
   return (
@@ -19,7 +18,6 @@ function Router() {
       <Route path="/" component={CreateHub} />
       <Route path="/my-prompts" component={MyPrompts} />
       <Route path="/library" component={Library} />
-      <Route path="/settings" component={Settings} />
       <Route path="/bot/:id" component={BotRecipe} />
       <Route path="/generate/website" component={GenerateWebsite} />
       <Route path="/generate/questionnaire" component={GenerateQuestionnaire} />
