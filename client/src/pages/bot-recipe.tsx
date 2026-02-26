@@ -201,7 +201,7 @@ export default function BotRecipe() {
           <p className="text-gray-500 text-sm">Settings for this chatbot.</p>
         </div>
         {editAgentUrl && (
-          <a href={editAgentUrl} className="shrink-0">
+          <a href={editAgentUrl} className="shrink-0" target="_blank" rel="noopener noreferrer">
             <Button className="gap-2 rounded-full px-6 shadow-sm font-medium bg-[#4698d8] hover:bg-[#3980b8] text-white border-0">
               <ExternalLink className="h-4 w-4" />
               Edit Chatbot

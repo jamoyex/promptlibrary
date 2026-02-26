@@ -1,9 +1,77 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { ArrowLeft, Globe, Loader2, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Globe, Loader2, Sparkles, CheckCircle2, FileSearch } from "lucide-react";
 import { Link, useLocation } from "wouter";
+
+const GENERATING_STEPS = [
+  { label: "Scanning your website…", icon: Globe },
+  { label: "Analyzing content & tone…", icon: FileSearch },
+  { label: "Building your chatbot…", icon: Sparkles },
+];
+
+function GeneratingModal() {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const stepInterval = setInterval(() => {
+      setStepIndex((i) => (i + 1) % GENERATING_STEPS.length);
+    }, 2200);
+    return () => clearInterval(stepInterval);
+  }, []);
+
+  useEffect(() => {
+    const progressInterval = setInterval(() => {
+      setProgress((p) => (p >= 95 ? p : p + Math.random() * 8 + 2));
+    }, 500);
+    return () => clearInterval(progressInterval);
+  }, []);
+
+  const step = GENERATING_STEPS[stepIndex];
+  const StepIcon = step.icon;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="mx-4 w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-8 shadow-xl animate-in zoom-in-95 duration-300">
+        <div className="flex flex-col items-center gap-6 text-center">
+          <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#4698d8]/10">
+            <Loader2 className="absolute h-8 w-8 animate-spin text-[#4698d8]/40" />
+            <StepIcon className="h-7 w-7 text-[#4698d8] relative z-10 animate-pulse" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-lg font-semibold text-gray-900">Generating your chatbot</h3>
+            <p
+              key={stepIndex}
+              className="text-sm text-gray-600 min-h-[20px] animate-in fade-in slide-in-from-bottom-2 duration-300"
+            >
+              {step.label}
+            </p>
+          </div>
+          <div className="w-full space-y-2">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
+              <div
+                className="h-full rounded-full bg-[#4698d8] transition-all duration-500 ease-out"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <div className="flex justify-center gap-1.5">
+              {GENERATING_STEPS.map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                    i === stepIndex ? "bg-[#4698d8] scale-125" : "bg-gray-200"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function GenerateWebsite() {
   const [, setLocation] = useLocation();
@@ -61,24 +129,13 @@ export default function GenerateWebsite() {
             </CardDescription>
           </CardHeader>
           <CardFooter className="flex justify-center pb-12 pt-4">
-            {import.meta.env.VITE_AGENT_DASHBOARD_URL ? (
-              <a href={import.meta.env.VITE_AGENT_DASHBOARD_URL} className="w-full max-w-xs block" target="_blank" rel="noopener noreferrer">
-                <Button 
-                  size="lg" 
-                  className="w-full gap-2 px-8 h-12 text-base bg-[#4698d8] hover:bg-[#3980b8] text-white rounded-full shadow-sm font-medium" 
-                >
-                  View Agent
-                </Button>
-              </a>
-            ) : (
-              <Button 
-                size="lg" 
-                className="w-full max-w-xs gap-2 px-8 h-12 text-base bg-[#4698d8] hover:bg-[#3980b8] text-white rounded-full shadow-sm font-medium" 
-                onClick={() => setLocation("/")}
-              >
-                Done
-              </Button>
-            )}
+            <Button
+              size="lg"
+              className="w-full max-w-xs gap-2 px-8 h-12 text-base bg-[#4698d8] hover:bg-[#3980b8] text-white rounded-full shadow-sm font-medium"
+              onClick={() => setLocation("/")}
+            >
+              Go to Your Chatbots
+            </Button>
           </CardFooter>
         </Card>
       </div>
@@ -86,20 +143,22 @@ export default function GenerateWebsite() {
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-2xl mx-auto mt-12">
-      <div className="flex items-center gap-4">
-        <Link href="/">
-          <Button variant="outline" size="icon" className="h-8 w-8">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Generate from Website</h1>
-          <p className="text-gray-500 text-sm">Let our AI scan your site and build a prompt automatically</p>
+    <>
+      {isGenerating && <GeneratingModal />}
+      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-2xl mx-auto mt-12">
+        <div className="flex items-center gap-4">
+          <Link href="/">
+            <Button variant="outline" size="icon" className="h-8 w-8">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900">Generate from Website</h1>
+            <p className="text-gray-500 text-sm">Let our AI scan your site and build a prompt automatically</p>
+          </div>
         </div>
-      </div>
 
-      <Card className="shadow-md border-gray-200 mt-8">
+        <Card className="shadow-md border-gray-200 mt-8">
         <CardHeader className="text-center pb-8 pt-10">
           <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
             <Globe className="h-8 w-8 text-primary" />
@@ -141,5 +200,6 @@ export default function GenerateWebsite() {
         </CardFooter>
       </Card>
     </div>
+    </>
   );
 }
