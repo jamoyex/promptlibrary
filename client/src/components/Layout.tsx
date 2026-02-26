@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import logo from "@assets/botbuilderslogo_1772058512069.png";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Library, FolderOpen } from "lucide-react";
+import { PlusCircle, Library, FolderOpen, Settings as SettingsIcon } from "lucide-react";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -16,36 +16,50 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
         
-        <nav className="flex-1 p-4 space-y-2">
-          <Link href="/">
-            <Button
-              variant={location === "/" ? "secondary" : "ghost"}
-              className="w-full justify-start gap-2"
-            >
-              <PlusCircle className="h-4 w-4" />
-              Create an Agent Prompt
-            </Button>
-          </Link>
-          
-          <Link href="/my-prompts">
-            <Button
-              variant={location === "/my-prompts" ? "secondary" : "ghost"}
-              className="w-full justify-start gap-2"
-            >
-              <FolderOpen className="h-4 w-4" />
-              View Agent Prompts
-            </Button>
-          </Link>
-          
-          <Link href="/library">
-            <Button
-              variant={location === "/library" ? "secondary" : "ghost"}
-              className="w-full justify-start gap-2"
-            >
-              <Library className="h-4 w-4" />
-              Agent Prompt Library
-            </Button>
-          </Link>
+        <nav className="flex-1 p-4 flex flex-col">
+          <div className="space-y-2 flex-1">
+            <Link href="/">
+              <Button
+                variant={location === "/" ? "secondary" : "ghost"}
+                className="w-full justify-start gap-2"
+              >
+                <PlusCircle className="h-4 w-4" />
+                Create an Agent Prompt
+              </Button>
+            </Link>
+            
+            <Link href="/my-prompts">
+              <Button
+                variant={location === "/my-prompts" ? "secondary" : "ghost"}
+                className="w-full justify-start gap-2"
+              >
+                <FolderOpen className="h-4 w-4" />
+                View Agent Prompts
+              </Button>
+            </Link>
+            
+            <Link href="/library">
+              <Button
+                variant={location === "/library" ? "secondary" : "ghost"}
+                className="w-full justify-start gap-2"
+              >
+                <Library className="h-4 w-4" />
+                Agent Prompt Library
+              </Button>
+            </Link>
+          </div>
+
+          <div className="pt-4 border-t border-gray-100">
+            <Link href="/settings">
+              <Button
+                variant={location === "/settings" ? "secondary" : "ghost"}
+                className="w-full justify-start gap-2 text-gray-600"
+              >
+                <SettingsIcon className="h-4 w-4" />
+                Settings
+              </Button>
+            </Link>
+          </div>
         </nav>
       </aside>
 

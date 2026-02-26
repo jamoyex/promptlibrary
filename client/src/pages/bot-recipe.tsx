@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Copy, CheckCircle2, AlertCircle, ToggleRight, Info } from "lucide-react";
+import { ArrowLeft, Copy, CheckCircle2, AlertCircle, ToggleRight, Info, PlusCircle, Loader2 } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
@@ -47,6 +47,9 @@ export default function CreatePrompt() {
     }
   ];
 
+  const [creatingField, setCreatingField] = useState<string | null>(null);
+  const [createdFields, setCreatedFields] = useState<string[]>([]);
+
   const handleCopy = (text: string, fieldName: string) => {
     navigator.clipboard.writeText(text);
     setCopiedField(fieldName);
@@ -55,6 +58,20 @@ export default function CreatePrompt() {
       description: `${fieldName} has been copied.`,
     });
     setTimeout(() => setCopiedField(null), 2000);
+  };
+
+  const handleCreateField = (fieldId: string) => {
+    setCreatingField(fieldId);
+    
+    // Simulate API request to create field in GHL
+    setTimeout(() => {
+      setCreatingField(null);
+      setCreatedFields(prev => [...prev, fieldId]);
+      toast({
+        title: "Field Created in GHL",
+        description: "The custom field was successfully created in your GoHighLevel account.",
+      });
+    }, 1500);
   };
 
   return (
@@ -207,8 +224,26 @@ export default function CreatePrompt() {
 
                                   <div>
                                     <Label className="text-xs font-semibold text-gray-700">Which contact field to be updated</Label>
-                                    <div className="text-sm font-medium text-gray-900 mt-1 px-3 py-1.5 bg-white border border-gray-200 rounded-md">
-                                      {update.contactField} <span className="text-gray-400 font-normal ml-1">(Select from dropdown)</span>
+                                    <div className="flex items-center gap-2 mt-1">
+                                      <div className="flex-1 text-sm font-medium text-gray-900 px-3 py-1.5 bg-white border border-gray-200 rounded-md truncate">
+                                        {update.contactField} <span className="text-gray-400 font-normal ml-1 hidden sm:inline">(Select from dropdown)</span>
+                                      </div>
+                                      <Button 
+                                        variant="outline" 
+                                        size="sm" 
+                                        className={`h-8 shrink-0 ${createdFields.includes(update.id) ? 'text-green-600 border-green-200 bg-green-50' : 'text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100'}`}
+                                        onClick={() => handleCreateField(update.id)}
+                                        disabled={creatingField === update.id || createdFields.includes(update.id)}
+                                      >
+                                        {creatingField === update.id ? (
+                                          <Loader2 className="h-3 w-3 animate-spin mr-1.5" />
+                                        ) : createdFields.includes(update.id) ? (
+                                          <CheckCircle2 className="h-3 w-3 mr-1.5" />
+                                        ) : (
+                                          <PlusCircle className="h-3 w-3 mr-1.5" />
+                                        )}
+                                        {createdFields.includes(update.id) ? "Created" : "Create Field in GHL"}
+                                      </Button>
                                     </div>
                                   </div>
 
