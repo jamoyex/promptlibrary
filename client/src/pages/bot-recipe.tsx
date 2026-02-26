@@ -4,9 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Copy, CheckCircle2, AlertCircle, ToggleRight, Loader2, PlusCircle } from "lucide-react";
+import { ArrowLeft, AlertCircle, ToggleRight, Loader2, ExternalLink } from "lucide-react";
 import { Link, useRoute } from "wouter";
-import { useToast } from "@/hooks/use-toast";
 
 const GHL_ACTION_TYPE_MAP: Record<
   string,
@@ -15,20 +14,19 @@ const GHL_ACTION_TYPE_MAP: Record<
   updateContactField: {
     name: "Contact Info",
     instruction:
-      "Enable this action for custom fields. (Note: Name, Email, and Phone are captured automatically via the prompt and do NOT need this action).",
+      "Captures and updates contact fields. Name, Email, and Phone are captured automatically via the prompt.",
   },
   appointmentBooking: {
     name: "Appointment Booking",
-    instruction:
-      "Enable this action and select your preferred calendar from the dropdown in your GoHighLevel settings. No need to copy any URLs.",
+    instruction: "Books appointments using your connected calendar.",
   },
   triggerWorkflow: {
     name: "Trigger Workflow",
-    instruction: "Configure which workflow to run when this action is triggered in your agent settings.",
+    instruction: "Runs a workflow when triggered.",
   },
   humanHandOver: {
     name: "Human Handover",
-    instruction: "Enable to transfer the conversation to a human agent when needed.",
+    instruction: "Transfers the conversation to a human agent.",
   },
   stopBot: {
     name: "Stop Bot",
@@ -36,11 +34,11 @@ const GHL_ACTION_TYPE_MAP: Record<
   },
   advancedFollowup: {
     name: "Advanced Follow-up",
-    instruction: "Configure follow-up sequences for this agent.",
+    instruction: "Follow-up sequences for this agent.",
   },
   transferBot: {
     name: "Transfer Bot",
-    instruction: "Transfer the conversation to another bot.",
+    instruction: "Transfers the conversation to another bot.",
   },
 };
 
@@ -93,7 +91,7 @@ function mapGHLActionsToRequired(actions: GHLAction[] = []): RequiredAction[] {
     return {
       id,
       name: (a.name as string) || mapped?.name || type,
-      instruction: mapped?.instruction ?? `Enable and configure this action in your GoHighLevel agent settings.`,
+      instruction: mapped?.instruction ?? "",
       type,
       ...(updates?.length ? { updates } : {}),
     };
@@ -101,11 +99,9 @@ function mapGHLActionsToRequired(actions: GHLAction[] = []): RequiredAction[] {
 }
 
 export default function BotRecipe() {
-  const { toast } = useToast();
   const [, params] = useRoute("/bot/:id");
   const agentId = params?.id ?? null;
 
-  const [copiedField, setCopiedField] = useState<string | null>(null);
   const [promptData, setPromptData] = useState({
     personality: "",
     goal: "",
@@ -115,8 +111,6 @@ export default function BotRecipe() {
   const [agentName, setAgentName] = useState("");
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [creatingField, setCreatingField] = useState<string | null>(null);
-  const [createdFields, setCreatedFields] = useState<string[]>([]);
 
   useEffect(() => {
     if (!agentId) {
@@ -160,29 +154,9 @@ export default function BotRecipe() {
     };
   }, [agentId]);
 
-  const handleCopy = (text: string, fieldName: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedField(fieldName);
-    toast({
-      title: "Copied to clipboard",
-      description: `${fieldName} has been copied.`,
-    });
-    setTimeout(() => setCopiedField(null), 2000);
-  };
-
-  const handleCreateField = (fieldId: string) => {
-    setCreatingField(fieldId);
-    setTimeout(() => {
-      setCreatingField(null);
-      setCreatedFields((prev) => [...prev, fieldId]);
-      toast({
-        title: "Field Created in GHL",
-        description: "The custom field was successfully created in your GoHighLevel account.",
-      });
-    }, 1500);
-  };
-
   const displayName = agentName || new URLSearchParams(window.location.search).get("name") || "Your Chatbot";
+  const editAgentBase = import.meta.env.VITE_EDIT_AGENT_BASE_URL ?? "";
+  const editAgentUrl = editAgentBase && agentId ? `${editAgentBase.replace(/\/$/, "")}/${agentId}` : "";
 
   if (loading) {
     return (
@@ -214,18 +188,31 @@ export default function BotRecipe() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 flex-wrap">
         <Link href="/my-prompts">
           <Button variant="outline" size="icon" className="h-8 w-8">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
-        <div>
+        <div className="flex-1 min-w-0">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">
             {displayName}
           </h1>
-          <p className="text-gray-500 text-sm">Review, tweak, and copy these values into your GoHighLevel account.</p>
+          <p className="text-gray-500 text-sm">Settings for this chatbot.</p>
         </div>
+        {editAgentUrl && (
+          <a
+            href={editAgentUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0"
+          >
+            <Button className="gap-2">
+              <ExternalLink className="h-4 w-4" />
+              Edit Chatbot
+            </Button>
+          </a>
+        )}
       </div>
 
       <div className="max-w-4xl space-y-8">
@@ -233,75 +220,39 @@ export default function BotRecipe() {
           <Card className="shadow-sm border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle>Core Prompt Configuration</CardTitle>
-              <CardDescription>Copy each of these sections directly into your agent settings.</CardDescription>
+              <CardDescription>Current prompt settings for this chatbot.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
               <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <Label htmlFor="personality" className="text-base font-semibold">Personality</Label>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-2"
-                    onClick={() => handleCopy(promptData.personality, "Personality")}
-                    disabled={!promptData.personality}
-                  >
-                    {copiedField === "Personality" ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-                    {copiedField === "Personality" ? "Copied!" : "Copy"}
-                  </Button>
-                </div>
+                <Label htmlFor="personality" className="text-base font-semibold">Personality</Label>
                 <Textarea
                   id="personality"
                   value={promptData.personality}
-                  onChange={(e) => setPromptData({ ...promptData, personality: e.target.value })}
-                  className="min-h-[120px] resize-y text-base bg-gray-50/50"
-                  placeholder="e.g. Friendly and helpful"
+                  readOnly
+                  className="min-h-[120px] resize-y text-base bg-gray-50/50 border-gray-200 focus-visible:ring-0 cursor-default"
+                  placeholder="—"
                 />
               </div>
 
               <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <Label htmlFor="goal" className="text-base font-semibold">Goal</Label>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-2"
-                    onClick={() => handleCopy(promptData.goal, "Goal")}
-                    disabled={!promptData.goal}
-                  >
-                    {copiedField === "Goal" ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-                    {copiedField === "Goal" ? "Copied!" : "Copy"}
-                  </Button>
-                </div>
+                <Label htmlFor="goal" className="text-base font-semibold">Goal</Label>
                 <Textarea
                   id="goal"
                   value={promptData.goal}
-                  onChange={(e) => setPromptData({ ...promptData, goal: e.target.value })}
-                  className="min-h-[120px] resize-y text-base bg-gray-50/50"
-                  placeholder="e.g. Assist customers with inquiries"
+                  readOnly
+                  className="min-h-[120px] resize-y text-base bg-gray-50/50 border-gray-200 focus-visible:ring-0 cursor-default"
+                  placeholder="—"
                 />
               </div>
 
               <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <Label htmlFor="additional-info" className="text-base font-semibold">Additional Info / Instructions</Label>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-2"
-                    onClick={() => handleCopy(promptData.additionalInfo, "Additional Info")}
-                    disabled={!promptData.additionalInfo}
-                  >
-                    {copiedField === "Additional Info" ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-                    {copiedField === "Additional Info" ? "Copied!" : "Copy"}
-                  </Button>
-                </div>
+                <Label htmlFor="additional-info" className="text-base font-semibold">Additional Info / Instructions</Label>
                 <Textarea
                   id="additional-info"
                   value={promptData.additionalInfo}
-                  onChange={(e) => setPromptData({ ...promptData, additionalInfo: e.target.value })}
-                  className="min-h-[120px] resize-y text-base bg-gray-50/50"
-                  placeholder="e.g. Provide excellent customer service"
+                  readOnly
+                  className="min-h-[120px] resize-y text-base bg-gray-50/50 border-gray-200 focus-visible:ring-0 cursor-default"
+                  placeholder="—"
                 />
               </div>
             </CardContent>
@@ -311,19 +262,14 @@ export default function BotRecipe() {
         <div className="space-y-6">
           <Card className="shadow-sm border-gray-200">
             <CardHeader className="bg-gray-50 border-b border-gray-100 rounded-t-xl">
-              <CardTitle className="text-lg">Required Actions</CardTitle>
+              <CardTitle className="text-lg">Actions included in this chatbot</CardTitle>
               <CardDescription>
-                Configure these specific actions in your agent settings for this template to work.
+                Actions configured for this chatbot.
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
-              <div className="bg-blue-50 text-blue-700 p-3 rounded-lg text-sm mb-6 flex gap-2 items-start">
-                <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
-                <p>Turn on the following actions in your account and follow the instructions.</p>
-              </div>
-
               {requiredActions.length === 0 ? (
-                <p className="text-sm text-gray-500 py-4">No actions configured for this agent in GoHighLevel.</p>
+                <p className="text-sm text-gray-500 py-4">No actions configured for this chatbot.</p>
               ) : (
                 <div className="space-y-6">
                   {requiredActions.map((action, index) => (
@@ -338,7 +284,9 @@ export default function BotRecipe() {
                         <div className="flex-1 space-y-2 pt-1">
                           <div>
                             <h4 className="font-semibold text-gray-900">{action.name}</h4>
-                            <p className="text-sm text-gray-500">{action.instruction}</p>
+                            {action.instruction && (
+                              <p className="text-sm text-gray-500">{action.instruction}</p>
+                            )}
                           </div>
                           {action.type === "updateContactField" && action.updates && action.updates.length > 0 ? (
                             <div className="space-y-4 mt-2">
@@ -349,84 +297,29 @@ export default function BotRecipe() {
                                   </h5>
                                   <div className="space-y-4">
                                     <div>
-                                      <div className="flex justify-between items-center mb-1">
-                                        <Label className="text-xs font-semibold text-gray-700">Action name</Label>
-                                        <Button
-                                          variant="ghost"
-                                          size="sm"
-                                          className="h-6 px-2 text-xs"
-                                          onClick={() => handleCopy(update.actionName, `${update.id}-action-name`)}
-                                        >
-                                          {copiedField === `${update.id}-action-name` ? (
-                                            <CheckCircle2 className="h-3 w-3 mr-1 text-green-500" />
-                                          ) : (
-                                            <Copy className="h-3 w-3 mr-1" />
-                                          )}
-                                          {copiedField === `${update.id}-action-name` ? "Copied!" : "Copy"}
-                                        </Button>
-                                      </div>
+                                      <Label className="text-xs font-semibold text-gray-700">Action name</Label>
                                       <Input
                                         readOnly
                                         value={update.actionName}
-                                        className="h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0"
+                                        className="mt-1 h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0 border-gray-200"
                                       />
                                     </div>
                                     <div>
                                       <Label className="text-xs font-semibold text-gray-700">
-                                        Which contact field to be updated
+                                        Contact field to be updated
                                       </Label>
-                                      <div className="flex items-center gap-2 mt-1">
-                                        <div className="flex-1 text-sm font-medium text-gray-900 px-3 py-1.5 bg-white border border-gray-200 rounded-md truncate">
-                                          {update.contactField}{" "}
-                                          <span className="text-gray-400 font-normal ml-1 hidden sm:inline">
-                                            (Select from dropdown)
-                                          </span>
-                                        </div>
-                                        <Button
-                                          variant="outline"
-                                          size="sm"
-                                          className={`h-8 shrink-0 ${
-                                            createdFields.includes(update.id)
-                                              ? "text-green-600 border-green-200 bg-green-50"
-                                              : "text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100"
-                                          }`}
-                                          onClick={() => handleCreateField(update.id)}
-                                          disabled={creatingField === update.id || createdFields.includes(update.id)}
-                                        >
-                                          {creatingField === update.id ? (
-                                            <Loader2 className="h-3 w-3 animate-spin mr-1.5" />
-                                          ) : createdFields.includes(update.id) ? (
-                                            <CheckCircle2 className="h-3 w-3 mr-1.5" />
-                                          ) : (
-                                            <PlusCircle className="h-3 w-3 mr-1.5" />
-                                          )}
-                                          {createdFields.includes(update.id) ? "Created" : "Create Field in GHL"}
-                                        </Button>
+                                      <div className="mt-1 text-sm font-medium text-gray-900 px-3 py-1.5 bg-white border border-gray-200 rounded-md">
+                                        {update.contactField}
                                       </div>
                                     </div>
                                     <div>
-                                      <div className="flex justify-between items-center mb-1">
-                                        <Label className="text-xs font-semibold text-gray-700">
-                                          What to update in the field
-                                        </Label>
-                                        <Button
-                                          variant="ghost"
-                                          size="sm"
-                                          className="h-6 px-2 text-xs"
-                                          onClick={() => handleCopy(update.whatToUpdate, `${update.id}-what-to-update`)}
-                                        >
-                                          {copiedField === `${update.id}-what-to-update` ? (
-                                            <CheckCircle2 className="h-3 w-3 mr-1 text-green-500" />
-                                          ) : (
-                                            <Copy className="h-3 w-3 mr-1" />
-                                          )}
-                                          {copiedField === `${update.id}-what-to-update` ? "Copied!" : "Copy"}
-                                        </Button>
-                                      </div>
+                                      <Label className="text-xs font-semibold text-gray-700">
+                                        What to update in the field
+                                      </Label>
                                       <Input
                                         readOnly
                                         value={update.whatToUpdate}
-                                        className="h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0"
+                                        className="mt-1 h-8 text-sm bg-white font-mono text-gray-600 focus-visible:ring-0 border-gray-200"
                                       />
                                     </div>
                                   </div>
@@ -435,8 +328,7 @@ export default function BotRecipe() {
                             </div>
                           ) : action.type === "updateContactField" ? (
                             <div className="p-3 bg-gray-50 rounded-lg border border-gray-100 text-sm text-gray-600">
-                              Configure contact field updates in your GoHighLevel agent: Conversation AI → this agent
-                              → Actions.
+                              Contact field updates configured in agent settings.
                             </div>
                           ) : null}
                         </div>
