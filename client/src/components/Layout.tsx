@@ -26,30 +26,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <img src={logo} alt="BotBuilders Logo" className="h-6 object-contain cursor-pointer" />
             </Link>
           </div>
-          
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-[#41a25a] text-white flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity"><Phone className="w-4 h-4"/></div>
-            <div className="w-8 h-8 rounded-full bg-[#2563eb] text-white flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity"><Sparkles className="w-4 h-4"/></div>
-            <div className="w-8 h-8 rounded-full bg-[#3fa899] text-white flex items-center justify-center relative cursor-pointer hover:opacity-90 transition-opacity">
-              <Megaphone className="w-4 h-4"/>
-              <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-[1.5px] border-white"></div>
-            </div>
-            <div className="w-8 h-8 rounded-full bg-[#f97316] text-white flex items-center justify-center relative cursor-pointer hover:opacity-90 transition-opacity">
-              <Bell className="w-4 h-4"/>
-              <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-yellow-400 rounded-full border-[1.5px] border-white"></div>
-            </div>
-            <div className="w-8 h-8 rounded-full bg-[#3b82f6] text-white flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity"><HelpCircle className="w-4 h-4"/></div>
-            <div className="w-8 h-8 rounded-full bg-gray-400 text-white flex items-center justify-center text-xs font-medium cursor-pointer hover:opacity-90 transition-opacity ml-1">MR</div>
-          </div>
         </div>
 
         {/* Secondary Navigation Bar */}
         <div className="flex justify-between items-center h-14 px-4 sm:px-6">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-600 hover:bg-gray-100 -ml-2">
-              <Menu className="h-5 w-5" />
-            </Button>
-            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-2 text-sm font-semibold text-gray-800 px-2 hover:bg-gray-100 h-8">
