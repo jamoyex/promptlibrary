@@ -19,15 +19,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-[#f3f7fb] flex flex-col">
       {/* Top Navigation Bar Container */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        {/* Topmost Icon Bar */}
-        <div className="flex justify-between items-center h-14 px-4 sm:px-6 border-b border-gray-100">
-          <div className="flex items-center">
-            <Link href="/">
-              <img src={logo} alt="BotBuilders Logo" className="h-6 object-contain cursor-pointer" />
-            </Link>
-          </div>
-        </div>
-
         {/* Secondary Navigation Bar */}
         <div className="flex justify-between items-center h-14 px-4 sm:px-6">
           <div className="flex items-center gap-4">
