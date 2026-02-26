@@ -1,19 +1,19 @@
-import { Link, useLocation } from "wouter";
+"use client";
+
+import { useState } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { 
-  Menu, ChevronDown, Phone, Sparkles, Megaphone, 
-  Bell, HelpCircle, Wand2, FolderOpen, Library 
-} from "lucide-react";
-import logo from "@assets/botbuilderslogo_1772058512069.png";
+import { ChevronDown, Wand2, FolderOpen, Library } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CreateChatbotModal } from "@/components/CreateChatbotModal";
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const [location] = useLocation();
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#f3f7fb] flex flex-col">
@@ -44,14 +44,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </div>
           
           <div className="flex items-center">
-            <Link href="/">
-              <Button className="bg-[#4698d8] hover:bg-[#3980b8] text-white gap-2 rounded-full px-6 shadow-sm font-medium">
-                <Wand2 className="w-4 h-4" /> Create
-              </Button>
-            </Link>
+            <Button
+              onClick={() => setCreateModalOpen(true)}
+              className="bg-[#4698d8] hover:bg-[#3980b8] text-white gap-2 rounded-full px-6 shadow-sm font-medium"
+            >
+              <Wand2 className="w-4 h-4" /> Create
+            </Button>
           </div>
         </div>
       </header>
+
+      <CreateChatbotModal open={createModalOpen} onOpenChange={setCreateModalOpen} />
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">

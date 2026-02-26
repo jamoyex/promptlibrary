@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Layout } from "@/components/Layout";
 import NotFound from "@/pages/not-found";
-import CreateHub from "@/pages/create-hub";
 import MyPrompts from "@/pages/my-prompts";
 import Library from "@/pages/library";
 import TemplateDetail from "@/pages/template-detail";
@@ -16,7 +15,7 @@ import GenerateQuestionnaire from "@/pages/generate-questionnaire";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={CreateHub} />
+      <Route path="/" component={MyPrompts} />
       <Route path="/my-prompts" component={MyPrompts} />
       <Route path="/library" component={Library} />
       <Route path="/template/:id" component={TemplateDetail} />

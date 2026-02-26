@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
-import { Search, Bot, ArrowRight } from "lucide-react";
+import { Search, Bot, ArrowRight, Download } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { TEMPLATES } from "@/data/templates";
 
@@ -45,7 +45,11 @@ export default function Library() {
                 ))}
               </div>
             </CardContent>
-            <CardFooter className="pt-4 border-t border-gray-100 flex justify-end">
+            <CardFooter className="pt-4 border-t border-gray-100 flex justify-end gap-2">
+              <Button variant="outline" size="sm" className="gap-2" disabled>
+                <Download className="h-3 w-3" />
+                Install Bot
+              </Button>
               <Link href={`/template/${template.id}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   View Template <ArrowRight className="h-3 w-3" />

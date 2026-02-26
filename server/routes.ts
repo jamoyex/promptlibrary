@@ -98,6 +98,53 @@ export async function registerRoutes(
     }
   });
 
+  app.put("/api/ghl/agents/:id", async (req, res) => {
+    const { id } = req.params;
+    if (!GHL_TOKEN) {
+      res.status(503).json({
+        error: "GoHighLevel integration is not configured (GHL_INTEGRATION_TOKEN)",
+      });
+      return;
+    }
+    if (!id) {
+      res.status(400).json({ error: "Agent ID is required" });
+      return;
+    }
+    try {
+      const url = `${GHL_BASE}/conversation-ai/agents/${encodeURIComponent(id)}`;
+      const patch = typeof req.body === "object" && req.body !== null ? req.body : {};
+      const getRes = await fetch(url, { method: "GET", headers: ghlHeaders });
+      const existing = await getRes.json().catch(() => ({}));
+      if (!getRes.ok) {
+        res.status(getRes.status).json(
+          existing?.message ? { error: existing.message } : existing
+        );
+        return;
+      }
+      const readOnlyKeys = ["id", "summary", "traceId"];
+      const existingForPut = Object.fromEntries(
+        Object.entries(existing).filter(([k]) => !readOnlyKeys.includes(k))
+      );
+      const body = { ...existingForPut, ...patch };
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: ghlHeaders,
+        body: JSON.stringify(body),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        res.status(response.status).json(
+          data?.message ? { error: data.message } : data
+        );
+        return;
+      }
+      res.json(data);
+    } catch (err) {
+      console.error("GHL update agent error:", err);
+      res.status(500).json({ error: "Failed to update agent" });
+    }
+  });
+
   app.get("/api/ghl/agents/:agentId/actions/list", async (req, res) => {
     const { agentId } = req.params;
     if (!GHL_TOKEN) {

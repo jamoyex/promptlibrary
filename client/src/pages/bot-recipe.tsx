@@ -201,13 +201,8 @@ export default function BotRecipe() {
           <p className="text-gray-500 text-sm">Settings for this chatbot.</p>
         </div>
         {editAgentUrl && (
-          <a
-            href={editAgentUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0"
-          >
-            <Button className="gap-2">
+          <a href={editAgentUrl} className="shrink-0">
+            <Button className="gap-2 rounded-full px-6 shadow-sm font-medium bg-[#4698d8] hover:bg-[#3980b8] text-white border-0">
               <ExternalLink className="h-4 w-4" />
               Edit Chatbot
             </Button>
@@ -229,7 +224,7 @@ export default function BotRecipe() {
                   id="personality"
                   value={promptData.personality}
                   readOnly
-                  className="min-h-[120px] resize-y text-base bg-gray-50/50 border-gray-200 focus-visible:ring-0 cursor-default"
+                  className="min-h-10 resize-y text-base bg-gray-50/50 border-gray-200 focus-visible:ring-0 cursor-default"
                   placeholder="—"
                 />
               </div>
@@ -240,7 +235,7 @@ export default function BotRecipe() {
                   id="goal"
                   value={promptData.goal}
                   readOnly
-                  className="min-h-[120px] resize-y text-base bg-gray-50/50 border-gray-200 focus-visible:ring-0 cursor-default"
+                  className="min-h-10 resize-y text-base bg-gray-50/50 border-gray-200 focus-visible:ring-0 cursor-default"
                   placeholder="—"
                 />
               </div>
@@ -251,7 +246,7 @@ export default function BotRecipe() {
                   id="additional-info"
                   value={promptData.additionalInfo}
                   readOnly
-                  className="min-h-[120px] resize-y text-base bg-gray-50/50 border-gray-200 focus-visible:ring-0 cursor-default"
+                  className="min-h-[300px] resize-y text-base bg-gray-50/50 border-gray-200 focus-visible:ring-0 cursor-default"
                   placeholder="—"
                 />
               </div>
