@@ -297,7 +297,7 @@ export default function MyPrompts() {
                 )}
               </CardContent>
               <CardFooter className="pt-4 border-t border-gray-100 flex justify-end">
-                <Link href={`/bot/${template.id}?name=${encodeURIComponent(template.botName)}`}>
+                <Link href={`/chatbots/bot/${template.id}?name=${encodeURIComponent(template.botName)}`}>
                   <Button variant="outline" size="sm" className="gap-2">
                     Open Chatbot <ArrowRight className="h-3 w-3" />
                   </Button>

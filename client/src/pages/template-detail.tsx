@@ -8,7 +8,7 @@ import { Link, useRoute } from "wouter";
 import { getTemplateById } from "@/data/templates";
 
 export default function TemplateDetail() {
-  const [, params] = useRoute("/template/:id");
+  const [, params] = useRoute("/chatbots/template/:id");
   const templateId = params?.id ?? null;
   const template = templateId ? getTemplateById(templateId) : null;
 
@@ -16,7 +16,7 @@ export default function TemplateDetail() {
     return (
       <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
         <div className="flex items-center gap-4">
-          <Link href="/library">
+          <Link href="/chatbots/library">
             <Button variant="outline" size="icon" className="h-8 w-8">
               <ArrowLeft className="h-4 w-4" />
             </Button>
@@ -34,7 +34,7 @@ export default function TemplateDetail() {
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div className="flex items-center gap-4 flex-wrap">
-        <Link href="/library">
+        <Link href="/chatbots/library">
           <Button variant="outline" size="icon" className="h-8 w-8">
             <ArrowLeft className="h-4 w-4" />
           </Button>

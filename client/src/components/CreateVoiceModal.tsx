@@ -10,7 +10,7 @@ import {
 import { Globe, FileQuestion } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface CreateChatbotModalProps {
+interface CreateVoiceModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -19,20 +19,20 @@ const options = [
   {
     id: "website",
     label: "From Website",
-    description: "Enter a URL and we'll build a prompt from your site.",
+    description: "Enter a URL and we'll build a voice agent from your site.",
     icon: Globe,
-    href: "/chatbots/generate/website",
+    href: "/voiceai/generate/website",
   },
   {
     id: "questions",
     label: "Answer Questions",
-    description: "Answer a few questions and we'll craft the prompt.",
+    description: "Answer a few questions and we'll craft the voice agent.",
     icon: FileQuestion,
-    href: "/chatbots/generate/questionnaire",
+    href: "/voiceai/generate/questionnaire",
   },
 ];
 
-export function CreateChatbotModal({ open, onOpenChange }: CreateChatbotModalProps) {
+export function CreateVoiceModal({ open, onOpenChange }: CreateVoiceModalProps) {
   const [, setLocation] = useLocation();
 
   const handleSelect = (href: string) => {
@@ -52,7 +52,7 @@ export function CreateChatbotModal({ open, onOpenChange }: CreateChatbotModalPro
           </DialogTitle>
         </DialogHeader>
         <p className="text-center text-sm font-medium text-gray-700">
-          How would you like to create a chatbot?
+          How would you like to create a voice agent?
         </p>
         <div className="grid grid-cols-2 gap-4 pt-4">
           {options.map((opt) => {

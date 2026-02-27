@@ -3,13 +3,16 @@ import { createServer, type Server } from "http";
 
 const GHL_BASE = "https://services.leadconnectorhq.com";
 const GHL_AGENTS_SEARCH_URL = `${GHL_BASE}/conversation-ai/agents/search`;
+const GHL_VOICE_AI_AGENTS_URL = `${GHL_BASE}/voice-ai/agents`;
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
   const WEBHOOK_URL = process.env.WEBHOOK_URL;
+  const WEBHOOK_VOICE_GENERATE_URL = process.env.WEBHOOK_VOICE_GENERATE_URL;
   const GHL_TOKEN = process.env.GHL_INTEGRATION_TOKEN;
+  const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID;
 
   app.get("/api/ghl/agents", async (_req, res) => {
     if (!GHL_TOKEN) {
@@ -212,6 +215,95 @@ export async function registerRoutes(
     }
   });
 
+  // Voice AI (GHL Voice AI API: https://marketplace.gohighlevel.com/docs/ghl/voice-ai/get-agents)
+  const voiceAiHeaders = {
+    Authorization: `Bearer ${GHL_TOKEN}`,
+    "Content-Type": "application/json",
+    Version: "2021-07-28",
+  };
+
+  app.get("/api/ghl/voice-ai/agents", async (req, res) => {
+    if (!GHL_TOKEN) {
+      res.status(503).json({
+        error: "GoHighLevel integration is not configured (GHL_INTEGRATION_TOKEN)",
+        agents: [],
+      });
+      return;
+    }
+    const locationId = (req.query.locationId as string)?.trim() || (GHL_LOCATION_ID ?? "").trim();
+    if (!locationId) {
+      res.status(400).json({
+        error: "LocationId is required for Voice AI agents. Set GHL_LOCATION_ID in your server .env (or pass ?locationId= in the request).",
+        agents: [],
+      });
+      return;
+    }
+    try {
+      const url = new URL(GHL_VOICE_AI_AGENTS_URL);
+      url.searchParams.set("locationId", locationId);
+      const response = await fetch(url.toString(), {
+        method: "GET",
+        headers: voiceAiHeaders,
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        res.status(response.status).json({
+          error: data.message || "Failed to fetch Voice AI agents",
+          agents: [],
+        });
+        return;
+      }
+      const agents = data.agents ?? data.data?.agents ?? [];
+      res.json({ agents });
+    } catch (err) {
+      console.error("GHL Voice AI list agents error:", err);
+      res.status(500).json({
+        error: "Failed to fetch Voice AI agents",
+        agents: [],
+      });
+    }
+  });
+
+  app.get("/api/ghl/voice-ai/agents/:id", async (req, res) => {
+    const { id } = req.params;
+    if (!GHL_TOKEN) {
+      res.status(503).json({
+        error: "GoHighLevel integration is not configured (GHL_INTEGRATION_TOKEN)",
+      });
+      return;
+    }
+    if (!id) {
+      res.status(400).json({ error: "Agent ID is required" });
+      return;
+    }
+    const locationId = (req.query.locationId as string)?.trim() || (GHL_LOCATION_ID ?? "").trim();
+    if (!locationId) {
+      res.status(400).json({
+        error: "LocationId is required for Voice AI Get Agent. Set GHL_LOCATION_ID in your server .env (or pass ?locationId= in the request).",
+      });
+      return;
+    }
+    try {
+      const url = new URL(`${GHL_VOICE_AI_AGENTS_URL}/${encodeURIComponent(id)}`);
+      url.searchParams.set("locationId", locationId);
+      const response = await fetch(url.toString(), {
+        method: "GET",
+        headers: voiceAiHeaders,
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        res.status(response.status).json(
+          data?.message ? { error: data.message } : data
+        );
+        return;
+      }
+      res.json(data);
+    } catch (err) {
+      console.error("GHL Voice AI get agent error:", err);
+      res.status(500).json({ error: "Failed to fetch Voice AI agent" });
+    }
+  });
+
   app.post("/api/generate-from-website", async (req, res) => {
     if (!WEBHOOK_URL) {
       res.status(503).json({
@@ -220,6 +312,22 @@ export async function registerRoutes(
       return;
     }
     const response = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body),
+    });
+    const text = await response.text();
+    res.status(response.status).type("application/json").send(text);
+  });
+
+  app.post("/api/generate-voice-from-website", async (req, res) => {
+    if (!WEBHOOK_VOICE_GENERATE_URL) {
+      res.status(503).json({
+        error: "Voice generate-from-website webhook is not configured (WEBHOOK_VOICE_GENERATE_URL)",
+      });
+      return;
+    }
+    const response = await fetch(WEBHOOK_VOICE_GENERATE_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req.body),

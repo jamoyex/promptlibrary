@@ -42,7 +42,7 @@ export default function GenerateQuestionnaire() {
       // Simulate generation delay
       setTimeout(() => {
         setIsGenerating(false);
-        setLocation("/bot/generated-from-qna?name=QuestionnaireBot");
+        setLocation("/chatbots/bot/generated-from-qna?name=QuestionnaireBot");
       }, 2000);
     }
   };
@@ -59,7 +59,7 @@ export default function GenerateQuestionnaire() {
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-2xl mx-auto mt-12">
       <div className="flex items-center gap-4">
-        <Link href="/">
+        <Link href="/chatbots">
           <Button variant="outline" size="icon" className="h-8 w-8">
             <ArrowLeft className="h-4 w-4" />
           </Button>

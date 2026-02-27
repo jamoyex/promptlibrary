@@ -99,7 +99,7 @@ function mapGHLActionsToRequired(actions: GHLAction[] = []): RequiredAction[] {
 }
 
 export default function BotRecipe() {
-  const [, params] = useRoute("/bot/:id");
+  const [, params] = useRoute("/chatbots/bot/:id");
   const agentId = params?.id ?? null;
 
   const [promptData, setPromptData] = useState({
@@ -170,7 +170,7 @@ export default function BotRecipe() {
     return (
       <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
         <div className="flex items-center gap-4">
-          <Link href="/my-prompts">
+          <Link href="/chatbots/my-prompts">
             <Button variant="outline" size="icon" className="h-8 w-8">
               <ArrowLeft className="h-4 w-4" />
             </Button>
@@ -189,7 +189,7 @@ export default function BotRecipe() {
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div className="flex items-center gap-4 flex-wrap">
-        <Link href="/my-prompts">
+        <Link href="/chatbots/my-prompts">
           <Button variant="outline" size="icon" className="h-8 w-8">
             <ArrowLeft className="h-4 w-4" />
           </Button>
